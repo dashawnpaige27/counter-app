@@ -53,14 +53,9 @@ export class counterApp extends DDDSuper(LitElement) {
         background-color: white;
       }
 
-      .button-space {
-        display: block;
-        margin: auto;
 
-      }
-
-      button:hover {
-        color: white;
+      .button:hover {
+        color: orange;
       }
 
       .min-reached { 
@@ -71,13 +66,6 @@ export class counterApp extends DDDSuper(LitElement) {
         color: blue;
       }
 
-      .num-reached { 
-        color: green;
-      }
-
-      .one-reached {
-        color: purple;
-      }
 
     `];
   }
@@ -118,8 +106,7 @@ makeItRain() {
     return html`
 <div class="wrapper">
   <confetti-container id="confetti"></confetti-container>
-  <div class="${this.ruleSet()}">${this.counter}</div>
-  <div class="button-space">
+  
   <button>@click="${this.increment}"
     ?disabled="${this.max === this.counter}">+</button>
   
@@ -130,14 +117,6 @@ makeItRain() {
 </div>`;
   }
 
-
-  ruleSet() {
-    if (this.counter === this.max) return 'max-reached';
-    if (this.counter === this.min) return 'min-reached';
-    if (this.counter === 18) return 'num-reached';
-    if (this.counter === 21) return 'one-reached';
-    return '';
-  }
 
   /**
    * haxProperties integration via file reference

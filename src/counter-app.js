@@ -10,11 +10,17 @@ export class counterApp extends DDDSuper(LitElement) {
   constructor() {
     super();
     this.title = "";
+    this.counter = 16;
+    this.min = 10;
+    this.max = 25;
   }
 
   static get properties() {
     return {
       title: { type: String },
+      counter: { type: Number },
+      min: { type: Number },
+      max: { type: Number }
     };
   }
 
@@ -35,16 +41,102 @@ export class counterApp extends DDDSuper(LitElement) {
       div {
         padding: 0;
         margin: 0;
+        font-size: 25px;
       }
+      button {
+        padding: 0;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border: 2px;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      .button-space {
+        display: block;
+        margin: auto;
+
+      }
+
+      button:hover {
+        color: white;
+      }
+
+      .min-reached { 
+        color: red;
+      }
+
+      .max-reached {
+        color: blue;
+      }
+
+      .num-reached { 
+        color: green;
+      }
+
+      .one-reached {
+        color: purple;
+      }
+
     `];
+  }
+
+
+  updated(changedProperties) {
+    if (changedProperties.has('counter')) {
+      if (this.counter === 21) {
+        this.makeItRain();
+      }
+    }
+  }
+
+
+increment(e) {
+  if (this.counter < this.max) {
+    this.counter++;
+  }
+}
+
+
+decrement(e) {
+  if (this.counter > this.min) {
+   this.counter--;
+  }
+}
+
+makeItRain() {
+  import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(() => {
+    setTimeout(() => {
+      this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+       }, 0);
+  
+    });
   }
 
   render() {
     return html`
 <div class="wrapper">
-  <div>${this.title}</div>
+  <confetti-container id="confetti"></confetti-container>
+  <div class="${this.setRuleSet()}">${this.counter}</div>
+  <div class="button-space">
+  <button>@click="${this.increment}"
+    ?disabled="${this.max === this.counter}">+</button>
+  
+  <button> @click="${this.decrement}"
+    ?disabled="${this.min === this.counter}">-</button>
+  </div>
   <slot></slot>
 </div>`;
+  }
+
+
+  setRuleSet() {
+    if (this.counter === this.max) return 'max-reached';
+    if (this.counter === this.min) return 'min-reached';
+    if (this.counter === 18) return 'num-reached';
+    if (this.counter === 21) return 'one-reached';
+    return '';
   }
 
   /**

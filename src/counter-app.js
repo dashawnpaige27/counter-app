@@ -118,12 +118,12 @@ makeItRain() {
     return html`
 <div class="wrapper">
   <confetti-container id="confetti"></confetti-container>
-  <div class="${this.setRuleSet()}">${this.counter}</div>
+  <div class="${this.ruleSet()}">${this.counter}</div>
   <div class="button-space">
   <button>@click="${this.increment}"
     ?disabled="${this.max === this.counter}">+</button>
   
-  <button> @click="${this.decrement}"
+  <button>@click="${this.decrement}"
     ?disabled="${this.min === this.counter}">-</button>
   </div>
   <slot></slot>
@@ -131,7 +131,7 @@ makeItRain() {
   }
 
 
-  setRuleSet() {
+  ruleSet() {
     if (this.counter === this.max) return 'max-reached';
     if (this.counter === this.min) return 'min-reached';
     if (this.counter === 18) return 'num-reached';
